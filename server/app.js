@@ -6,6 +6,7 @@ const healthRoutes = require("./routes/healthRoutes");
 const contactRoutes = require("./routes/contactRoutes");
 const reservationRoutes = require("./routes/reservationRoutes");
 const menuRoutes = require("./routes/menuRoutes");
+const reviewRoutes = require("./routes/reviewRoutes");
 
 const app = express();
 
@@ -20,6 +21,7 @@ app.use("/api/health", healthRoutes);
 app.use("/api/contact", contactRoutes);
 app.use("/api/reservations", reservationRoutes);
 app.use("/api/menu", menuRoutes);
+app.use("/api/reviews", reviewRoutes);
 
 // Error Handling Middlewares
 app.use(notFound);
