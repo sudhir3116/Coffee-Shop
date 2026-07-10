@@ -1,0 +1,22 @@
+const express = require("express");
+const cors = require("cors");
+const morgan = require("morgan");
+const { notFound, errorHandler } = require("./middleware/errorMiddleware");
+const healthRoutes = require("./routes/healthRoutes");
+
+const app = express();
+
+// Standard Middlewares in correct order
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cors());
+app.use(morgan("dev"));
+
+// Routes
+app.use("/api/health", healthRoutes);
+
+// Error Handling Middlewares
+app.use(notFound);
+app.use(errorHandler);
+
+module.exports = app;
