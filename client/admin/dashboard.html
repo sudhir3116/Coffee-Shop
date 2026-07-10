@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BeanBuddy - Admin Dashboard</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body class="dashboard-page">
+  <!-- Layout Wrapper -->
+  <div class="dashboard-wrapper">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <i class="fas fa-mug-hot sidebar-logo-icon"></i>
+        <h2>BeanBuddy Admin</h2>
+      </div>
+
+      <nav class="sidebar-menu">
+        <button class="nav-tab active" data-target="overview-section">
+          <i class="fas fa-chart-line"></i> <span>Overview</span>
+        </button>
+        <button class="nav-tab" data-target="menu-section">
+          <i class="fas fa-utensils"></i> <span>Menu Items</span>
+        </button>
+        <button class="nav-tab" data-target="reservations-section">
+          <i class="fas fa-calendar-alt"></i> <span>Reservations</span>
+        </button>
+        <button class="nav-tab" data-target="contacts-section">
+          <i class="fas fa-envelope"></i> <span>Contact Inbox</span>
+        </button>
+        <button class="nav-tab" data-target="reviews-section">
+          <i class="fas fa-star"></i> <span>Reviews</span>
+        </button>
+      </nav>
+
+      <div class="sidebar-footer">
+        <button id="logout-btn" class="logout-link">
+          <i class="fas fa-sign-out-alt"></i> <span>Logout</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Workspace -->
+    <main class="main-content">
+      <!-- Top header bar -->
+      <header class="main-header">
+        <div class="header-left">
+          <h1 id="page-title">Dashboard Overview</h1>
+        </div>
+        <div class="header-right">
+          <div class="admin-profile-info">
+            <span id="admin-display-name">Loading Profile...</span>
+            <div class="avatar-circle">
+              <i class="fas fa-user-shield"></i>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Dynamic Sections Containers -->
+      <div class="workspace-area">
+
+        <!-- 1. Overview Section -->
+        <section id="overview-section" class="tab-pane active">
+          <!-- Overview Cards -->
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="card-icon menu-color"><i class="fas fa-utensils"></i></div>
+              <div class="card-info">
+                <h3 id="stat-total-menu">-</h3>
+                <p>Total Menu Items</p>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="card-icon reservation-color"><i class="fas fa-calendar-check"></i></div>
+              <div class="card-info">
+                <h3 id="stat-pending-reservations">-</h3>
+                <p>Pending Reservations</p>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="card-icon contact-color"><i class="fas fa-envelope-open-text"></i></div>
+              <div class="card-info">
+                <h3 id="stat-new-contacts">-</h3>
+                <p>New Messages</p>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="card-icon review-color"><i class="fas fa-star-half-alt"></i></div>
+              <div class="card-info">
+                <h3 id="stat-pending-reviews">-</h3>
+                <p>Pending Reviews</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quick Activities / Status Lists -->
+          <div class="quick-overview-layout">
+            <div class="dashboard-block">
+              <h3>Recent Reservations</h3>
+              <div class="table-responsive">
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th>Ref</th>
+                      <th>Customer</th>
+                      <th>Date / Time</th>
+                      <th>Guests</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody id="recent-reservations-tbody">
+                    <tr><td colspan="5" class="text-center">Loading...</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 2. Menu Management Section -->
+        <section id="menu-section" class="tab-pane">
+          <div class="control-bar">
+            <div class="search-box">
+              <i class="fas fa-search"></i>
+              <input type="text" id="menu-search-input" placeholder="Search menu by name, description...">
+            </div>
+            <button class="btn-primary add-item-btn" id="open-menu-modal-btn">
+              <i class="fas fa-plus"></i> Add Menu Item
+            </button>
+          </div>
+
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Image</th>
+                  <th>Name</th>
+                  <th>Category</th>
+                  <th>Price</th>
+                  <th>Available</th>
+                  <th>Featured</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="menu-tbody">
+                <!-- Injected via JavaScript -->
+              </tbody>
+            </table>
+          </div>
+
+          <div class="pagination-footer" id="menu-pagination">
+            <!-- Paginated footer items -->
+          </div>
+        </section>
+
+        <!-- 3. Reservations Section -->
+        <section id="reservations-section" class="tab-pane">
+          <div class="control-bar">
+            <div class="search-box">
+              <i class="fas fa-search"></i>
+              <input type="text" id="res-search-input" placeholder="Search customer, reference, phone...">
+            </div>
+            <div class="filter-box">
+              <select id="res-filter-status">
+                <option value="">All Statuses</option>
+                <option value="Pending">Pending</option>
+                <option value="Confirmed">Confirmed</option>
+                <option value="Cancelled">Cancelled</option>
+                <option value="Completed">Completed</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Ref</th>
+                  <th>Customer</th>
+                  <th>Contact Info</th>
+                  <th>Date & Time</th>
+                  <th>Guests</th>
+                  <th>Table</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="reservations-tbody">
+                <!-- Injected via JavaScript -->
+              </tbody>
+            </table>
+          </div>
+
+          <div class="pagination-footer" id="res-pagination">
+            <!-- Injected via JavaScript -->
+          </div>
+        </section>
+
+        <!-- 4. Contact Inbox Section -->
+        <section id="contacts-section" class="tab-pane">
+          <div class="control-bar">
+            <div class="search-box">
+              <i class="fas fa-search"></i>
+              <input type="text" id="contact-search-input" placeholder="Search by name, email, subject...">
+            </div>
+          </div>
+
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Sender</th>
+                  <th>Subject</th>
+                  <th>Message</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="contacts-tbody">
+                <!-- Injected via JavaScript -->
+              </tbody>
+            </table>
+          </div>
+
+          <div class="pagination-footer" id="contact-pagination">
+            <!-- Injected via JavaScript -->
+          </div>
+        </section>
+
+        <!-- 5. Reviews Section -->
+        <section id="reviews-section" class="tab-pane">
+          <div class="control-bar">
+            <div class="search-box">
+              <i class="fas fa-search"></i>
+              <input type="text" id="review-search-input" placeholder="Search by title, comment, author...">
+            </div>
+          </div>
+
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Reviewer</th>
+                  <th>Details</th>
+                  <th>Approved</th>
+                  <th>Featured</th>
+                  <th>Likes</th>
+                  <th>Admin Reply</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="reviews-tbody">
+                <!-- Injected via JavaScript -->
+              </tbody>
+            </table>
+          </div>
+
+          <div class="pagination-footer" id="reviews-pagination">
+            <!-- Injected via JavaScript -->
+          </div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- Modal Dialogs -->
+
+  <!-- A. Menu Item Form Modal (Add / Edit) -->
+  <div class="modal" id="menu-modal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h2 id="menu-modal-title">Add Menu Item</h2>
+        <button class="modal-close-btn" data-close="menu-modal"><i class="fas fa-times"></i></button>
+      </div>
+      <form id="menu-item-form">
+        <input type="hidden" id="menu-item-id">
+        <div class="form-group">
+          <label for="menu-name">Item Name</label>
+          <input type="text" id="menu-name" required placeholder="e.g. Mocha Latte">
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="menu-category">Category</label>
+            <select id="menu-category" required>
+              <option value="Coffee">Coffee</option>
+              <option value="Tea">Tea</option>
+              <option value="Dessert">Dessert</option>
+              <option value="Snacks">Snacks</option>
+              <option value="Combo">Combo</option>
+              <option value="Cold Beverage">Cold Beverage</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="menu-price">Price (₹)</label>
+            <input type="number" id="menu-price" min="0" required placeholder="180">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="menu-image">Image URL / Path</label>
+          <input type="text" id="menu-image" required placeholder="/images/mocha.jpg">
+        </div>
+        <div class="form-group">
+          <label for="menu-ingredients">Ingredients (Comma separated)</label>
+          <input type="text" id="menu-ingredients" placeholder="espresso, milk, chocolate syrup">
+        </div>
+        <div class="form-group">
+          <label for="menu-description">Description</label>
+          <textarea id="menu-description" required rows="3" placeholder="A rich blend of espresso and chocolate..."></textarea>
+        </div>
+        <button type="submit" class="btn-primary w-full">Save Menu Item</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- B. Assign Table Modal -->
+  <div class="modal" id="table-modal">
+    <div class="modal-card modal-sm">
+      <div class="modal-header">
+        <h2>Assign Table Number</h2>
+        <button class="modal-close-btn" data-close="table-modal"><i class="fas fa-times"></i></button>
+      </div>
+      <form id="table-assign-form">
+        <input type="hidden" id="table-res-id">
+        <div class="form-group">
+          <label for="assign-table-number">Table Number</label>
+          <input type="number" id="assign-table-number" min="1" required placeholder="5">
+        </div>
+        <button type="submit" class="btn-primary w-full">Confirm Assign</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- C. Contact Reply Modal -->
+  <div class="modal" id="contact-reply-modal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h2>Reply to Inquiry</h2>
+        <button class="modal-close-btn" data-close="contact-reply-modal"><i class="fas fa-times"></i></button>
+      </div>
+      <form id="contact-reply-form">
+        <input type="hidden" id="contact-msg-id">
+        <div class="form-group">
+          <label>Original Inquiry</label>
+          <blockquote id="original-contact-msg" class="modal-quote"></blockquote>
+        </div>
+        <div class="form-group">
+          <label for="contact-admin-reply">Your Reply</label>
+          <textarea id="contact-admin-reply" required rows="5" placeholder="Dear Customer, thank you for reaching out..."></textarea>
+        </div>
+        <button type="submit" class="btn-primary w-full">Send Reply</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- D. Review Reply Modal -->
+  <div class="modal" id="review-reply-modal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h2>Reply to Review</h2>
+        <button class="modal-close-btn" data-close="review-reply-modal"><i class="fas fa-times"></i></button>
+      </div>
+      <form id="review-reply-form">
+        <input type="hidden" id="review-item-id">
+        <div class="form-group">
+          <label>Original Review</label>
+          <blockquote id="original-review-comment" class="modal-quote"></blockquote>
+        </div>
+        <div class="form-group">
+          <label for="review-admin-reply">Reply Content</label>
+          <textarea id="review-admin-reply" required rows="4" placeholder="Thank you so much for the feedback!..."></textarea>
+        </div>
+        <button type="submit" class="btn-primary w-full">Save Reply</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Load Global JS Script and Dashboards -->
+  <script src="../js/api/api.js"></script>
+  <script src="js/api/authApi.js"></script>
+  <script src="js/admin.js"></script>
+  <script src="js/dashboard.js"></script>
+</body>
+</html>

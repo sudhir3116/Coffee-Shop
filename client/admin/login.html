@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BeanBuddy - Admin Login</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body class="login-page">
+  <div class="login-container">
+    <div class="login-card">
+      <div class="logo-area">
+        <i class="fas fa-mug-hot logo-icon"></i>
+        <h1>BeanBuddy</h1>
+        <p class="subtitle">Control Panel Access</p>
+      </div>
+
+      <form id="login-form">
+        <div class="form-group">
+          <label for="email"><i class="fas fa-envelope"></i> Email Address</label>
+          <input type="email" id="email" placeholder="admin@beanbuddy.com" required>
+        </div>
+
+        <div class="form-group">
+          <label for="password"><i class="fas fa-lock"></i> Password</label>
+          <input type="password" id="password" placeholder="••••••••" required>
+        </div>
+
+        <button type="submit" class="btn-primary login-btn" id="login-submit-btn">
+          <span>Login Securely</span> <i class="fas fa-sign-in-alt"></i>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <script src="js/api/authApi.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>
