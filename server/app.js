@@ -5,6 +5,7 @@ const { notFound, errorHandler } = require("./middleware/errorMiddleware");
 const healthRoutes = require("./routes/healthRoutes");
 const contactRoutes = require("./routes/contactRoutes");
 const reservationRoutes = require("./routes/reservationRoutes");
+const menuRoutes = require("./routes/menuRoutes");
 
 const app = express();
 
@@ -18,6 +19,7 @@ app.use(morgan("dev"));
 app.use("/api/health", healthRoutes);
 app.use("/api/contact", contactRoutes);
 app.use("/api/reservations", reservationRoutes);
+app.use("/api/menu", menuRoutes);
 
 // Error Handling Middlewares
 app.use(notFound);
