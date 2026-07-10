@@ -3,6 +3,7 @@ const cors = require("cors");
 const morgan = require("morgan");
 const { notFound, errorHandler } = require("./middleware/errorMiddleware");
 const healthRoutes = require("./routes/healthRoutes");
+const contactRoutes = require("./routes/contactRoutes");
 
 const app = express();
 
@@ -14,6 +15,7 @@ app.use(morgan("dev"));
 
 // Routes
 app.use("/api/health", healthRoutes);
+app.use("/api/contact", contactRoutes);
 
 // Error Handling Middlewares
 app.use(notFound);
