@@ -12,11 +12,20 @@ class MenuService {
   }
 
   /**
+   * Escapes special regex characters in a string to prevent ReDoS attacks.
+   * @param {string} str - Raw user input.
+   * @returns {string} Escaped string safe for RegExp constructor.
+   */
+  escapeRegex(str) {
+    return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  }
+
+  /**
    * Checks if a menu item with the same name already exists.
    */
   async checkDuplicateName(name, excludeId = null) {
     const query = {
-      name: { $regex: new RegExp(`^${name.trim()}$`, 'i') },
+      name: { $regex: new RegExp(`^${this.escapeRegex(name.trim())}$`, 'i') },
       isDeleted: false
     };
 

@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const reservationController = require('../controllers/reservationController');
+const { protect } = require('../middleware/authMiddleware');
 const {
   createReservationValidator,
   updateStatusValidator,
@@ -8,22 +9,22 @@ const {
   idParamValidator
 } = require('../validators/reservationValidator');
 
-// POST /api/reservations - Create a new booking
+// POST /api/reservations - Create a new booking (public)
 router.post('/', createReservationValidator, reservationController.createReservation);
 
-// GET /api/reservations - Retrieve paginated/filtered list of active reservations
-router.get('/', reservationController.getAllReservations);
+// GET /api/reservations - Retrieve paginated/filtered list (admin only)
+router.get('/', protect, reservationController.getAllReservations);
 
-// GET /api/reservations/:id - Retrieve single reservation by ID
-router.get('/:id', idParamValidator, reservationController.getReservationById);
+// GET /api/reservations/:id - Retrieve single reservation (admin only)
+router.get('/:id', protect, idParamValidator, reservationController.getReservationById);
 
-// PATCH /api/reservations/:id/status - Update reservation status
-router.patch('/:id/status', updateStatusValidator, reservationController.updateReservationStatus);
+// PATCH /api/reservations/:id/status - Update reservation status (admin only)
+router.patch('/:id/status', protect, updateStatusValidator, reservationController.updateReservationStatus);
 
-// PATCH /api/reservations/:id/table - Assign table to reservation
-router.patch('/:id/table', assignTableValidator, reservationController.assignTable);
+// PATCH /api/reservations/:id/table - Assign table to reservation (admin only)
+router.patch('/:id/table', protect, assignTableValidator, reservationController.assignTable);
 
-// DELETE /api/reservations/:id - Soft-delete reservation
-router.delete('/:id', idParamValidator, reservationController.deleteReservation);
+// DELETE /api/reservations/:id - Soft-delete reservation (admin only)
+router.delete('/:id', protect, idParamValidator, reservationController.deleteReservation);
 
 module.exports = router;

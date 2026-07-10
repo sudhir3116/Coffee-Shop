@@ -12,12 +12,21 @@ class ReviewService {
   }
 
   /**
+   * Escapes special regex characters in a string to prevent ReDoS attacks.
+   * @param {string} str - Raw user input.
+   * @returns {string} Escaped string safe for RegExp constructor.
+   */
+  escapeRegex(str) {
+    return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  }
+
+  /**
    * Check if a duplicate review exists (Same email, same title, and same menuItem).
    */
   async checkDuplicateReview(email, title, menuItem = null) {
     const query = {
       email: email.toLowerCase(),
-      title: { $regex: new RegExp(`^${title.trim()}$`, 'i') },
+      title: { $regex: new RegExp(`^${this.escapeRegex(title.trim())}$`, 'i') },
       menuItem: menuItem || null,
       isDeleted: false
     };

@@ -1,4 +1,4 @@
-w/**
+/**
  * API service for Contact-related endpoints.
  */
 const contactApi = {

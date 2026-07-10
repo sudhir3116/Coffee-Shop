@@ -70,14 +70,15 @@ class AuthService {
       // Increment failed login attempt
       await admin.incrementLoginAttempts();
 
-      if (admin.isLocked) {
+      // Check if account is now locked (loginAttempts was updated in-memory by incrementLoginAttempts)
+      if (admin.loginAttempts >= 5) {
         const err = new Error('Too many failed login attempts. Account locked for 2 hours.');
         err.statusCode = 403;
         throw err;
       }
 
       const attemptsRemaining = 5 - admin.loginAttempts;
-      const err = new Error(`Invalid email or password. ${attemptsRemaining} attempts remaining before lockout.`);
+      const err = new Error(`Invalid email or password. ${attemptsRemaining} attempt${attemptsRemaining === 1 ? '' : 's'} remaining before lockout.`);
       err.statusCode = 401;
       throw err;
     }
