@@ -7,6 +7,7 @@ const contactRoutes = require("./routes/contactRoutes");
 const reservationRoutes = require("./routes/reservationRoutes");
 const menuRoutes = require("./routes/menuRoutes");
 const reviewRoutes = require("./routes/reviewRoutes");
+const authRoutes = require("./routes/authRoutes");
 
 const app = express();
 
@@ -22,6 +23,7 @@ app.use("/api/contact", contactRoutes);
 app.use("/api/reservations", reservationRoutes);
 app.use("/api/menu", menuRoutes);
 app.use("/api/reviews", reviewRoutes);
+app.use("/api/auth", authRoutes);
 
 // Error Handling Middlewares
 app.use(notFound);
